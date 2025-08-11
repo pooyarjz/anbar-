@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+{% block title %}داشبورد{% endblock %}
+{% block content %}
+<h1 class="mb-3">داشبورد</h1>
+<div class="row g-3 mb-4">
+  <div class="col-md-4"><div class="card"><div class="card-body">
+    <div class="fw-bold">تعداد اقلام</div><div class="display-6">{{ kpi_total_items }}</div>
+  </div></div></div>
+  <div class="col-md-4"><div class="card"><div class="card-body">
+    <div class="fw-bold">جمع موجودی (تقریبی)</div><div class="display-6">{{ kpi_total_stock|floatformat:2 }}</div>
+  </div></div></div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header">اقلام زیر حداقل موجودی</div>
+  <div class="card-body">
+    {% if low_stock %}
+    <table class="table"><thead><tr><th>کالا</th><th>موجودی</th><th>حداقل</th></tr></thead>
+    <tbody>
+      {% for r in low_stock %}<tr><td>{{ r.name }}</td><td>{{ r.current|floatformat:2 }}</td><td>{{ r.min|floatformat:2 }}</td></tr>{% endfor %}
+    </tbody></table>
+    {% else %}<div class="text-muted">موردی نیست.</div>{% endif %}
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">تراکنش‌های اخیر</div>
+  <div class="card-body">
+    <table class="table table-sm"><thead><tr><th>کالا</th><th>نوع</th><th>مقدار</th><th>کد</th><th>توضیح</th><th>تاریخ</th></tr></thead>
+    <tbody>
+      {% for t in recent_tx %}
+        <tr><td>{{ t.item.name }}</td><td>{{ t.get_ttype_display }}</td><td>{{ t.qty }}</td><td>{{ t.code }}</td><td>{{ t.note }}</td><td>{{ t.happened_at }}</td></tr>
+      {% endfor %}
+    </tbody></table>
+  </div>
+</div>
+{% endblock %}

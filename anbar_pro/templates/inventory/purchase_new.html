@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+{% block title %}خرید جدید{% endblock %}
+{% block content %}
+<h1 class="mb-3">خرید نهاده جدید</h1>
+{% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+<form method="post" class="card p-3">
+  {% csrf_token %}
+  <div class="row g-3 mb-3">
+    <div class="col-md-6">
+      <label class="form-label">تامین‌کننده</label>
+      <input name="supplier" class="form-control" placeholder="نام تامین‌کننده">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">توضیحات</label>
+      <input name="note" class="form-control">
+    </div>
+  </div>
+  <h5 class="mt-2">اقلام</h5>
+  <div class="table-responsive">
+    <table class="table">
+      <thead><tr><th>#</th><th>نام ماده</th><th>مقدار</th><th>کد (اختیاری)</th></tr></thead>
+      <tbody>
+        {% for i in 1|to_list:20 %}{% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <!-- Simple 20-row input -->
+  <div class="row g-2">
+    {% for i in "12345678901234567890" %}
+      <div class="col-md-4"><input name="item_{{ forloop.counter }}" class="form-control" placeholder="نام ماده {{ forloop.counter }}"></div>
+      <div class="col-md-4"><input name="qty_{{ forloop.counter }}" class="form-control" placeholder="مقدار"></div>
+      <div class="col-md-4"><input name="code_{{ forloop.counter }}" class="form-control" placeholder="کد"></div>
+    {% endfor %}
+  </div>
+  <div class="mt-3"><button class="btn btn-primary">ثبت خرید</button></div>
+</form>
+{% endblock %}

@@ -1,0 +1,1 @@
+from django.urls import path # (not used, router in project urls)
